@@ -4,22 +4,22 @@ export default function NavbarComp() {
   return (
     <Navbar position="static">
       <NavbarBrand>
-        <p className="font-bold text-inherit">ACME</p>
+        <p className="font-bold text-3xl text-inherit cursor-pointer">CAREERLY</p>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
-            Features
+            Home
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page">
-            Customers
+            Jobs
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
-            Integrations
+            My Messages
           </Link>
         </NavbarItem>
       </NavbarContent>

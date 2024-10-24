@@ -1,10 +1,12 @@
 import './App.css'
-import Navbar from './components/Navbar'
+import { NavbarComp } from './components'
+import {Signup} from './components'
 function App() {
 
   return (
     <>
-    <Navbar/>
+    <NavbarComp/>
+    <Signup/>
     </> )
 }
 
