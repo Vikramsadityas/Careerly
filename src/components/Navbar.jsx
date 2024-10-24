@@ -20,7 +20,7 @@ export default function NavbarComp() {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" to="/messages">
-            Notifications
+            Interactions
           </Link>
         </NavbarItem>
       </NavbarContent>

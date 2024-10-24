@@ -1,9 +1,11 @@
 import React from 'react'
-
+import MessageCard from './MessageCard'
 function MyMessages() {
   return (
     <div>
-        <h1 className='font-bold text-2xl'>MESSAGES</h1>
+        <div className='flex justify-center'>
+          <MessageCard/>
+        </div>
     </div>
   )
 }
