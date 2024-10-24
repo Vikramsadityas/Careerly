@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function NavbarComp() {
   return (
-    <Navbar position="static">
+    <Navbar position="static" className="mb-10 backdrop-blur-md bg-gray-200 bg-opacity-30 border border-gray-300 rounded-md">
       <NavbarBrand>
         <p className="font-bold text-3xl text-inherit cursor-pointer">CAREERLY</p>
       </NavbarBrand>
@@ -20,7 +20,7 @@ export default function NavbarComp() {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" to="/messages">
-            My Messages
+            Notifications
           </Link>
         </NavbarItem>
       </NavbarContent>

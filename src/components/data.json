@@ -1,0 +1,10 @@
+[
+    {
+      "key": "employee",
+      "label": "Employee"
+    },
+    {
+      "key": "employer",
+      "label": "Employer"
+    }
+  ]
