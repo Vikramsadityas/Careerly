@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import {Button, Input} from './index.js'
+import {Button,Input} from './index.js'
 import {useForm} from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
 function Signup() {
     const [error, setError] = useState("")
@@ -22,11 +23,12 @@ function Signup() {
                 <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
                 <p className="mt-2 text-center text-base text-black/60">
                     Already have an account?&nbsp;
-                        {/* Add Link tag*/}
-                        {/* to="/login"
+                    <Link
+                         to="/login"
                         className="font-medium text-primary transition-all duration-200 hover:underline"
-                    
-                        Sign In */}
+                    >
+                        Sign In
+                    </Link>
                     
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
