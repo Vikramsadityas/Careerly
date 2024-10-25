@@ -3,6 +3,7 @@ import {Button,Input} from './index.js'
 import {useForm} from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import SelectRole from './Selectrole.jsx'
+import axios from 'axios'
 
 function Signup() {
     const [error, setError] = useState("")

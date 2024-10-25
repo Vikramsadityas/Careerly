@@ -15,7 +15,6 @@ const MentorLoginForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-
   const expertiseAreas = [
     'Web Development',
     'Mobile Development',
@@ -88,6 +87,7 @@ const MentorLoginForm = () => {
     } else {
       setErrors(newErrors);
     }
+    
   };
 
   return (

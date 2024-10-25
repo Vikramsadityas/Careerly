@@ -71,11 +71,11 @@ const router = createBrowserRouter([
         element: (<PostJobs/>),
     },
     {
-        path:"/mentor/:mentorId",
+        path:"/mentor",
         element:(<MentorLoginForm/>)
     },
     {
-        path:"/employeer/:employeerId",
+        path:"/employeer",
         element:(<EmployerLoginForm/>)
     }
         

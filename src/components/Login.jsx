@@ -11,6 +11,7 @@ function Login() {
     const login = async(data) => {
         setError("")
         console.log(data)
+        navigate("/")
     }
 
   return (

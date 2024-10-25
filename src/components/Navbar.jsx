@@ -30,7 +30,7 @@ export default function NavbarComp() {
       </NavbarContent>
       <NavbarContent justify="end">
         { (isAuthenticated)?(<NavbarItem className="hidden lg:flex">
-          <Link to="/logout">logout {onclick=>(logout())}</Link>
+          <Link to="/logout"> Support {onclick=>(logout())}</Link>
         </NavbarItem>
         ):(<><NavbarItem className="hidden lg:flex">
           <Link to="/login">Login</Link>

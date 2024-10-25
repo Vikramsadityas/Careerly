@@ -64,15 +64,16 @@ const ProfileCard = () => {
                 color="primary" 
                 variant="flat"
                 className="w-full"
-                onClick={() => navigate("/jobs")}
+                onClick={() => navigate("/employeer")}
               >
                 Be a Employer
               </Button>
+              
               <Button 
                 color="secondary" 
                 variant="flat"
                 className="w-full"
-                onClick={() => console.log("Mentor action")}
+                onClick={() => navigate("/mentor")}
               >
                 Be a Mentor
               </Button>
