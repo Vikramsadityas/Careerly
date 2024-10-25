@@ -10,6 +10,7 @@ import {Login} from './components/index.js'
 import {Signup} from './components/index.js'
 import Jobs from './components/Jobs.jsx'
 import MyMessages from './components/MyMessages.jsx'
+import PostJobs from './components/PostJobs.jsx'
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
             // </AuthLayout>
                 <MyMessages />
         ),
+    },
+    {
+        path: "/addJob/:jobId",
+        element: (<PostJobs/>),
     },
         
     ],

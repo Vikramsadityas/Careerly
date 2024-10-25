@@ -5,12 +5,13 @@ import ProfileCard from './ProfileCard'
 function Home() {
   return (
     <>
-    <JobSearchBar/>
     <ProfileCard/>
+    <JobSearchBar/>
+    <div className='m-4'>
+    <h1 className='font-bold text-2xl'>Recommended Jobs</h1>
     <div className='flex justify-center mt-10'>
         <JobCard/>
-        <JobCard/>
-        <JobCard/>
+    </div>
     </div>
   </>
   )
