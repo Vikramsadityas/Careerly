@@ -1,3 +1,4 @@
+//job page
 import React from 'react'
 import JobCard from './JobCard'
 import JobSearchBar from './JobSearchBar'

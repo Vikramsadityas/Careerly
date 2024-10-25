@@ -1,3 +1,4 @@
+// Message page
 import React from 'react'
 import MessageCard from './MessageCard'
 function MyMessages() {
