@@ -2,6 +2,10 @@ import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Button} from "@nextui-or
 import { Link } from "react-router-dom";
 
 export default function NavbarComp() {
+  const isAuthenticated = true;
+  const logout = () => {
+    // logout logic here
+  };
   return (
     <Navbar position="static" className="mb-10 backdrop-blur-md bg-gray-200 bg-opacity-30 border border-gray-300 rounded-md">
       <NavbarBrand>
@@ -25,7 +29,10 @@ export default function NavbarComp() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        { (isAuthenticated)?(<NavbarItem className="hidden lg:flex">
+          <Link to="/logout">logout {onclick=>(logout())}</Link>
+        </NavbarItem>
+        ):(<><NavbarItem className="hidden lg:flex">
           <Link to="/login">Login</Link>
         </NavbarItem>
         <NavbarItem>
@@ -33,6 +40,9 @@ export default function NavbarComp() {
             Sign Up
           </Button>
         </NavbarItem>
+        </>)
+        
+        }
       </NavbarContent>
     </Navbar>
   );
