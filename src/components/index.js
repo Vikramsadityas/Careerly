@@ -6,6 +6,8 @@ import AuthLayout from "./AuthLayout";
 import Home from "./Home";
 import Login from "./Login";
 import JobCard from "./JobCard";
+import Container from "./Container";
+import PostForm from "./PostForm";
 export {
     NavbarComp,
     Signup,
@@ -14,5 +16,7 @@ export {
     AuthLayout,
     Home,
     Login,
-    JobCard
+    JobCard,
+    Container,
+    PostForm
 }

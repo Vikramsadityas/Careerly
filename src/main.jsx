@@ -13,6 +13,8 @@ import MyMessages from './components/MyMessages.jsx'
 import PostJobs from './components/PostJobs.jsx'
 import MentorProfile from './components/Mentor/MentorProfile.jsx'
 import EmployeerProfile from './components/Employeer/EmployeerProfile.jsx'
+import MentorLoginForm from './components/LoginasMentor.jsx'
+import EmployerLoginForm from './components/LoginasEmployeer.jsx'
 
 const router = createBrowserRouter([
   {
@@ -70,11 +72,11 @@ const router = createBrowserRouter([
     },
     {
         path:"/mentor/:mentorId",
-        element:(<MentorProfile/>)
+        element:(<MentorLoginForm/>)
     },
     {
         path:"/employeer/:employeerId",
-        element:(<EmployeerProfile/>)
+        element:(<EmployerLoginForm/>)
     }
         
     ],

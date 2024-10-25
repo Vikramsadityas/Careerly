@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Card } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { Textarea } from "@nextui-org/react";
+
 import { Building2, Globe, Phone, Info } from "lucide-react";
 
 const EmployerLoginForm = () => {
@@ -148,25 +142,7 @@ const EmployerLoginForm = () => {
           </div>
 
           {/* Industry */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Industry</label>
-            <Select
-              value={formData.industry}
-              onValueChange={(value) => handleChange('industry', value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select your industry" />
-              </SelectTrigger>
-              <SelectContent>
-                {industries.map((industry) => (
-                  <SelectItem key={industry} value={industry}>
-                    {industry}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.industry && <p className="text-red-500 text-sm">{errors.industry}</p>}
-          </div>
+          
 
           {/* Website */}
           <div className="space-y-2">

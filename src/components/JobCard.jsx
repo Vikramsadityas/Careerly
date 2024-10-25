@@ -1,3 +1,4 @@
+//Cards on job page
 import React, { useState, useEffect } from "react";
 import { Card } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";

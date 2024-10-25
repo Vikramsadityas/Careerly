@@ -11,8 +11,6 @@ function Jobs() {
     </div>
     <div className='flex justify-center mt-10'>
         <JobCard/>
-        <JobCard/>
-        <JobCard/>
     </div>
     </>
   )

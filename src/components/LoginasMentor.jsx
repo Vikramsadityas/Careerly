@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Card } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { Textarea } from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
 import { Star, User } from "lucide-react";
 
 const MentorLoginForm = () => {
