@@ -54,7 +54,7 @@ const MessageCard = () => {
     return name.charAt(0).toUpperCase();
   };
 
-  useEffect(() => {
+ /* useEffect(() => {
     connectWebSocket();
     
     return () => {
@@ -62,7 +62,7 @@ const MessageCard = () => {
         wsRef.current.close();
       }
     };
-  }, []);
+  }, []);*/
 
   const connectWebSocket = () => {
     const ws = new WebSocket('ws://your-websocket-server.com');
