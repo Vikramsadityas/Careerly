@@ -19,7 +19,7 @@ import MentorSearchPage from "./components/MentorSearchPage.jsx";
 import AllJobs from "./components/AllJobs.jsx";
 import AuthLayout from "./components/AuthLayout.jsx";
 import UserProfile from "./components/ProfileCard.jsx";
-import JobBoard from "./components/Jobs/jobBoard.jsx";
+import JobBoard from "./components/Jobs/JobBoard.jsx";
 
 const router = createBrowserRouter([
   {
