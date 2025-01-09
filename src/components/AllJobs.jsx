@@ -1,7 +1,6 @@
 //job page
 import React, {useState, useEffect} from 'react'
-import { Container, PostCard } from '../components'
-import appwriteService from "../appwrite/config";
+import { Container } from '../components'
 import PostJobs from './PostJobs';
 
 function AllJobs() {
@@ -20,7 +19,7 @@ function AllJobs() {
             <div className='flex flex-wrap'>
                 {jobs.map((job) => (
                     <div key={jobs.$id} className='p-2 w-1/4'>
-                        <PostJobs {...job} />
+                        <PostJobs job={job} />
                     </div>
                 ))}
             </div>

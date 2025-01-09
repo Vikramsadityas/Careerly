@@ -1,124 +1,151 @@
-import React from 'react';
-import { Card } from "@nextui-org/react";
-import { Avatar } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
-import {  useNavigate } from 'react-router-dom';
-import { Github, Linkedin, Instagram, Code2, Trophy } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
-const ProfileCard = () => {
-  const navigate=useNavigate()
-  const profile = {
-    name: "Sarah Johnson",
-    avatar: "/api/placeholder/150/150",
-    title: "Senior Software Engineer",
-    education: "MS Computer Science, Stanford University",
-    experience: [
-      "Lead Developer at Tech Corp (2020-Present)",
-      "Software Engineer at StartupX (2018-2020)"
-    ],
-    skills: ["React", "Node.js", "Python", "AWS", "Docker", "GraphQL"],
-    social: {
-      leetcode: "sarahjohnson",
-      hackerrank: "sarahj_dev",
-      github: "sarahjdev",
-      linkedin: "sarahjohnson",
-      instagram: "sarahj.codes"
-    }
-  };
+const GradientOrb = ({ className }) => (
+  <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`} />
+);
+
+const UserProfile = () => {
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const dummyData = {
+      id: "APP12345",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@example.com",
+      phoneNumber: "+1 234 567 890",
+      address: "1234 Elm Street, Springfield, USA",
+      skills: ["JavaScript", "React", "Node.js", "CSS", "HTML"],
+      education: "B.Sc. in Computer Science, XYZ University",
+      experience: "2 years as a Frontend Developer at ABC Corp",
+    };
+
+    setTimeout(() => {
+      setProfile(dummyData);
+      setLoading(false);
+    }, 500);
+
+    // Uncomment when connecting to the backend
+    /*
+    fetch("http://localhost:8080/applicants/profile")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch profile data.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProfile(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+    */
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen bg-black text-white flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-screen bg-black text-white flex items-center justify-center">
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
+
+  const {
+    id,
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    address,
+    skills,
+    education,
+    experience,
+  } = profile;
 
   return (
-    <>
-      <Card className="w-full p-6 bg-gray-100">
-        <div className="flex flex-row gap-8 ml-20 align-middle">
-          {/* Left side - Avatar and Social Links */}
-          <div className="flex flex-col gap-4">
-            <Avatar className="w-32 h-32">
-              <img src={profile.avatar} alt="Profile" />
-            </Avatar>
-            {/* Social Links under Avatar */}
-            <div className="flex flex-col gap-2">
-              <a href={`https://www.linkedin.com/in/${profile.social.linkedin}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Linkedin className="h-4 w-4" />
-                <span>@{profile.social.linkedin}</span>
-              </a>
-              <a href={`https://github.com/${profile.social.github}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Github className="h-4 w-4" />
-                <span>@{profile.social.github}</span>
-              </a>
-              <a href={`https://leetcode.com/${profile.social.leetcode}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Code2 className="h-4 w-4" />
-                <span>LeetCode: {profile.social.leetcode}</span>
-              </a>
-              <a href={`https://www.hackerrank.com/${profile.social.hackerrank}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Trophy className="h-4 w-4" />
-                <span>HackerRank: {profile.social.hackerrank}</span>
-              </a>
-              <a href={`https://www.instagram.com/${profile.social.instagram}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Instagram className="h-4 w-4" />
-                <span>@{profile.social.instagram}</span>
-              </a>
-            </div>
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-2 mt-4">
-              <Button 
-                color="primary" 
-                variant="flat"
-                className="w-full"
-                onClick={() => navigate("/employeer")}
-              >
-                Be a Employer
-              </Button>
+    <div className="h-screen bg-black text-white flex items-center justify-center relative overflow-hidden p-8">
+      {/* Gradient Orbs */}
+      <GradientOrb className="w-96 h-96 bg-purple-500 left-0 top-0" />
+      <GradientOrb className="w-96 h-96 bg-blue-500 right-0 bottom-0" />
+      <GradientOrb className="w-64 h-64 bg-pink-500 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+
+      <div className="w-full max-w-6xl">
+        <div className="backdrop-blur-xl bg-gray-900/30 rounded-3xl p-6 shadow-2xl border border-white/20">
+          <div className="grid grid-cols-12 gap-6">
+            {/* Left Column - Header & Personal Details */}
+            <div className="col-span-4 border-r border-white/10 pr-6">
+              <div className="mb-6">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                  Applicant Profile
+                </h1>
+                <p className="text-gray-400 text-sm">ID: {id}</p>
+              </div>
               
-              <Button 
-                color="secondary" 
-                variant="flat"
-                className="w-full"
-                onClick={() => navigate("/mentor")}
-              >
-                Be a Mentor
-              </Button>
+              <div className="space-y-3 text-gray-300">
+                <p>
+                  <span className="font-medium text-white/80">Name:</span>{" "}
+                  {firstName} {lastName}
+                </p>
+                <p>
+                  <span className="font-medium text-white/80">Email:</span>{" "}
+                  {email}
+                </p>
+                <p>
+                  <span className="font-medium text-white/80">Phone:</span>{" "}
+                  {phoneNumber}
+                </p>
+                <p>
+                  <span className="font-medium text-white/80">Address:</span>{" "}
+                  {address}
+                </p>
+              </div>
             </div>
-          </div>
-          {/* Right side - Info */}
-          <div className="flex flex-col gap-6 flex-grow ml-40">
-            {/* Name and Title */}
-            <div className="text-left">
-              <h2 className="text-2xl font-bold leading-none mb-2">{profile.name}</h2>
-              <p className="text-gray-500">{profile.title}</p>
-            </div>
-            {/* Education */}
-            <div className="text-left">
-              <h3 className="text-md font-semibold mb-2">Education</h3>
-              <p className="text-gray-500">{profile.education}</p>
-            </div>
-            {/* Experience */}
-            <div className="text-left">
-              <h3 className="text-md font-semibold mb-2">Experience</h3>
-              <ul className="list-disc ml-4 text-gray-500">
-                {profile.experience.map((exp, index) => (
-                  <li key={index} className="mb-1">{exp}</li>
-                ))}
-              </ul>
-            </div>
-            {/* Skills */}
-            <div className="text-left">
-              <h3 className="text-md font-semibold mb-2">Skills</h3>
+
+            {/* Middle Column - Skills */}
+            <div className="col-span-4 border-r border-white/10 px-6">
+              <h2 className="text-xl font-semibold mb-4 text-white/90">Skills</h2>
               <div className="flex flex-wrap gap-2">
-                {profile.skills.map((skill, index) => (
+                {skills.map((skill, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 rounded-full border border-gray-300 text-sm hover:border-blue-600 transition-colors"
+                    className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm hover:bg-white/10 transition-colors"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
+
+            {/* Right Column - Education & Experience */}
+            <div className="col-span-4 pl-6">
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold mb-3 text-white/90">Education</h2>
+                <p className="text-gray-300">{education}</p>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-semibold mb-3 text-white/90">Experience</h2>
+                <p className="text-gray-300">{experience}</p>
+              </div>
+            </div>
           </div>
         </div>
-      </Card>
-    </>
+      </div>
+    </div>
   );
-}
+};
 
-export default ProfileCard;
+export default UserProfile;

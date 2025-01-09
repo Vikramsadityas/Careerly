@@ -67,7 +67,6 @@ const MessageCard = () => {
   const connectWebSocket = () => {
     const ws = new WebSocket('ws://your-websocket-server.com');
     wsRef.current = ws;
-
     ws.onopen = () => {
       setConnectionStatus('connected');
       console.log('WebSocket Connected');
@@ -164,6 +163,7 @@ const MessageCard = () => {
 
   return (
     <div className="max-w-4xl bg-gray-50 p-4 relative">
+      <h2 className="text-xl font-semibold mb-4">Messages</h2>
       <div className="mb-4 flex justify-end">
         <ConnectionStatus />
       </div>
