@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Video, X, User, BookOpen, Award } from 'lucide-react';
-
+import WalletComponent from '../Wallet/Wallet';
 // Visual component for creating gradient background effects
 const GradientOrb = ({ className }) => (
   <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`} />
@@ -188,16 +188,19 @@ const MentorProfile = () => {
           <div className="flex-1">
             <div className="backdrop-blur-xl bg-gray-900/30 rounded-2xl p-6 md:p-8 border border-white/10">
               {/* Profile Header */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
+              <div className="flex flex-col sm:flex-row items-center  sm:items-start gap-6 mb-8">
                 <div className="w-32 h-32 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
                   <User size={48} className="text-white/50" />
                 </div>
-                <div className="text-center sm:text-left">
+                <div className="text-center sm:text-left sm:grid grid-cols-12">
+                  <div className='col-span-10'>
                   <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     {mentor.user.name}
                   </h1>
                   <p className="text-xl text-white/80 mb-2">{mentor.user.title}</p>
                   <p className="text-white/60">{mentor.user.company}</p>
+                  </div>
+                <WalletComponent />
                 </div>
               </div>
 
