@@ -112,20 +112,69 @@ const EmployerDashboard = () => {
 
   // Fetch jobs
   useEffect(() => {
-    const dummyJobs = Array.from({ length: 6 }, (_, index) => ({
-      id: index + 1,
-      title: [
-        "Senior Frontend Developer",
-        "Backend Engineer",
-        "UI/UX Designer",
-        "Product Manager",
-        "DevOps Engineer",
-        "Full Stack Developer",
-      ][index],
-      status: index % 2 === 0 ? "OPEN" : "CLOSED",
-      createdAt: new Date(2024, 0, index + 1).toISOString(),
-      applicationCount: Math.floor(Math.random() * 50) + 1,
-    }));
+    const jobTitles = [
+      "Senior Frontend Developer",
+      "Backend Engineer",
+      "UI/UX Designer",
+      "Product Manager",
+      "DevOps Engineer",
+      "Full Stack Developer",
+      "Data Scientist",
+      "Mobile App Developer",
+      "QA Engineer",
+      "Technical Writer",
+    ];
+
+    const dummyJobs = [
+      {
+        id: 1,
+        title: "Senior Frontend Developer",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 2,
+        title: "Backend Engineer",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 3,
+        title: "UI/UX Designer",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 4,
+        title: "Product Manager",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 5,
+        title: "DevOps Engineer",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 6,
+        title: "Full Stack Developer",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 7,
+        title: "Data Scientist",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+      {
+        id: 8,
+        title: "Mobile App Developer",
+        status: "OPEN",
+        applicationCount: Math.floor(Math.random() * 50) + 1,
+      },
+    ];
 
     setTimeout(() => {
       setJobs(dummyJobs);
@@ -153,10 +202,11 @@ const EmployerDashboard = () => {
   };
 
   const handleToggleJobStatus = (jobId) => {
+    console.log(`Job ID: ${jobId}`);
     setJobs((prevJobs) =>
-      prevJobs.map((job) =>
+      prevJobs.filter((job) =>
         job.id === jobId
-          ? { ...job, status: job.status === "OPEN" ? "CLOSED" : "REOPEN" }
+          ? { ...job, status: job.status === "OPEN" ? "CLOSED" : "OPEN" }
           : job
       )
     );
@@ -305,6 +355,7 @@ const EmployerDashboard = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           handleToggleJobStatus(job.id);
+                          console.log(`Job ID in html: ${job.id}`);
                         }}
                         className={`px-4 py-1 rounded-lg transition-colors text-sm cursor-pointer font-medium ${
                           job.status === "OPEN"
