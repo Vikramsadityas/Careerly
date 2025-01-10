@@ -175,8 +175,8 @@ const UserProfile = () => {
       setLoading(false);
     }, 500);
 
-    // Backend integration code preserved as commented
-    /*
+    // Backend Integration
+    
     fetch("http://localhost:8080/applicants/profile")
       .then((response) => {
         if (!response.ok) {
@@ -192,7 +192,7 @@ const UserProfile = () => {
         setError(err.message);
         setLoading(false);
       });
-    */
+    
   }, []);
 
   const handleRoleSelect = (role) => {
