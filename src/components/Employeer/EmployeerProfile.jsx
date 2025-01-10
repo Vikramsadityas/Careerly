@@ -1,123 +1,47 @@
 import React from 'react';
-import { Card } from "@nextui-org/react";
-import { Avatar } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
-import {  useNavigate } from 'react-router-dom';
-import { Github, Linkedin, Instagram, Code2, Trophy } from "lucide-react";
 
-const EmployeerProfile = () => {
-  const navigate=useNavigate()
+const EmployerProfile = () => {
   const profile = {
     name: "Sarah Johnson",
-    avatar: "/api/placeholder/150/150",
-    title: "Senior Software Engineer",
-    education: "MS Computer Science, Stanford University",
-    experience: [
-      "Lead Developer at Tech Corp (2020-Present)",
-      "Software Engineer at StartupX (2018-2020)"
-    ],
-    skills: ["React", "Node.js", "Python", "AWS", "Docker", "GraphQL"],
-    social: {
-      leetcode: "sarahjohnson",
-      hackerrank: "sarahj_dev",
-      github: "sarahjdev",
-      linkedin: "sarahjohnson",
-      instagram: "sarahj.codes"
-    }
+    email: "sarah.johnson@techcorp.com",
+    company: "TechCorp Industries",
+    website: "www.techcorp.com"
   };
 
   return (
-    <>
-      <Card className="w-full p-6 bg-gray-100">
-        <div className="flex flex-row gap-8 ml-20 align-middle">
-          {/* Left side - Avatar and Social Links */}
-          <div className="flex flex-col gap-4">
-            <Avatar className="w-32 h-32">
-              <img src={profile.avatar} alt="Profile" />
-            </Avatar>
-            {/* Social Links under Avatar */}
-            <div className="flex flex-col gap-2">
-              <a href={`https://www.linkedin.com/in/${profile.social.linkedin}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Linkedin className="h-4 w-4" />
-                <span>@{profile.social.linkedin}</span>
-              </a>
-              <a href={`https://github.com/${profile.social.github}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Github className="h-4 w-4" />
-                <span>@{profile.social.github}</span>
-              </a>
-              <a href={`https://leetcode.com/${profile.social.leetcode}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Code2 className="h-4 w-4" />
-                <span>LeetCode: {profile.social.leetcode}</span>
-              </a>
-              <a href={`https://www.hackerrank.com/${profile.social.hackerrank}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Trophy className="h-4 w-4" />
-                <span>HackerRank: {profile.social.hackerrank}</span>
-              </a>
-              <a href={`https://www.instagram.com/${profile.social.instagram}`} className="flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600">
-                <Instagram className="h-4 w-4" />
-                <span>@{profile.social.instagram}</span>
-              </a>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 flex items-center justify-center">
+      {/* Gradient orbs */}
+      <div className="fixed top-0 left-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+      <div className="fixed top-0 right-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      <div className="fixed -bottom-8 left-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+
+      {/* Profile Card */}
+      <div className="relative w-full max-w-xl">
+        <div className="backdrop-blur-lg bg-white/10 rounded-2xl shadow-2xl p-8 border border-white/20">
+          <div className="space-y-6">
+            {/* Name and Email */}
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+              <p className="text-gray-300">{profile.email}</p>
             </div>
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-2 mt-4">
-              <Button 
-                color="primary" 
-                variant="flat"
-                className="w-full"
-                onClick={() => navigate("/jobs")}
+
+            {/* Company Info */}
+            <div className="space-y-2">
+              <p className="text-lg font-semibold text-white">{profile.company}</p>
+              <a 
+                href={`https://${profile.website}`} 
+                className="text-blue-300 hover:text-blue-400 transition-colors"
+                target="_blank" 
+                rel="noopener noreferrer"
               >
-                Be a Employer
-              </Button>
-              <Button 
-                color="secondary" 
-                variant="flat"
-                className="w-full"
-                onClick={() => console.log("Mentor action")}
-              >
-                Be a Mentor
-              </Button>
-            </div>
-          </div>
-          {/* Right side - Info */}
-          <div className="flex flex-col gap-6 flex-grow ml-40">
-            {/* Name and Title */}
-            <div className="text-left">
-              <h2 className="text-2xl font-bold leading-none mb-2">{profile.name}</h2>
-              <p className="text-gray-500">{profile.title}</p>
-            </div>
-            {/* Education */}
-            <div className="text-left">
-              <h3 className="text-md font-semibold mb-2">Education</h3>
-              <p className="text-gray-500">{profile.education}</p>
-            </div>
-            {/* Experience */}
-            <div className="text-left">
-              <h3 className="text-md font-semibold mb-2">Experience</h3>
-              <ul className="list-disc ml-4 text-gray-500">
-                {profile.experience.map((exp, index) => (
-                  <li key={index} className="mb-1">{exp}</li>
-                ))}
-              </ul>
-            </div>
-            {/* Skills */}
-            <div className="text-left">
-              <h3 className="text-md font-semibold mb-2">Skills</h3>
-              <div className="flex flex-wrap gap-2">
-                {profile.skills.map((skill, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 rounded-full border border-gray-300 text-sm hover:border-blue-600 transition-colors"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
+                {profile.website}
+              </a>
             </div>
           </div>
         </div>
-      </Card>
-    </>
+      </div>
+    </div>
   );
-}
+};
 
-export default EmployeerProfile;
+export default EmployerProfile;
