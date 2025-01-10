@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Wallet, ChevronDown, X } from "lucide-react";
+import {  ChevronDown, X } from "lucide-react";
+import WalletComponent from "./Wallet/Wallet";
 
 // Decorative gradient orb component for background effects
 const GradientOrb = ({ className }) => (
@@ -279,12 +280,7 @@ const UserProfile = () => {
                 </AnimatePresence>
               </div>
 
-              <button
-                onClick={() => setShowWalletModal(true)}
-                className="p-2 hover:bg-white/5 rounded-lg transition-colors"
-              >
-                <Wallet size={24} />
-              </button>
+              <WalletComponent/>
             </div>
           </div>
 
