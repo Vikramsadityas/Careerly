@@ -42,7 +42,41 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-
+// JobCard component (if needed in the future)
+const JobCard = ({ job, onViewApplications, onToggleStatus }) => (
+  <div className="border border-white/20 rounded-xl p-4">
+    <div className="flex justify-between items-start mb-4">
+      <h3 className="text-xl font-semibold text-white">{job.title}</h3>
+      <StatusBadge status={job.status} />
+    </div>
+    <div className="flex justify-between items-center">
+      <div className="flex items-center space-x-2">
+        <Users size={18} className="text-gray-400" />
+        <span className="text-sm text-gray-400">
+          {job.applicationCount} applicants
+        </span>
+      </div>
+      <div className="flex items-center space-x-2">
+        <button
+          onClick={() => onViewApplications(job)}
+          className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors text-sm font-medium"
+        >
+          View Applications
+        </button>
+        <button
+          onClick={() => onToggleStatus(job.id)}
+          className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+            job.status === "OPEN"
+              ? "bg-green-500 hover:bg-green-600"
+              : "bg-red-500 hover:bg-red-600"
+          }`}
+        >
+          {job.status === "OPEN" ? "Close Job" : "Reopen Job"}
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 const EmployerDashboard = () => {
   const [profile, setProfile] = useState(null);
@@ -91,56 +125,13 @@ const EmployerDashboard = () => {
       "Technical Writer",
     ];
 
-    const dummyJobs = [
-      {
-        id: 1,
-        title: "Senior Frontend Developer",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 2,
-        title: "Backend Engineer",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 3,
-        title: "UI/UX Designer",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 4,
-        title: "Product Manager",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 5,
-        title: "DevOps Engineer",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 6,
-        title: "Full Stack Developer",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 7,
-        title: "Data Scientist",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-      {
-        id: 8,
-        title: "Mobile App Developer",
-        status: "OPEN",
-        applicationCount: Math.floor(Math.random() * 50) + 1,
-      },
-    ];
+    const dummyJobs = Array.from({ length: 10 }, (_, index) => ({
+      id: index + 1,
+      title: jobTitles[index % jobTitles.length],
+      status: index % 2 === 0 ? "OPEN" : "CLOSED",
+      createdAt: new Date(2024, 0, index + 1).toISOString(),
+      applicationCount: Math.floor(Math.random() * 50) + 1,
+    }));
 
     setTimeout(() => {
       setJobs(dummyJobs);
@@ -168,9 +159,8 @@ const EmployerDashboard = () => {
   };
 
   const handleToggleJobStatus = (jobId) => {
-    console.log(`Job ID: ${jobId}`);
     setJobs((prevJobs) =>
-      prevJobs.filter((job) =>
+      prevJobs.map((job) =>
         job.id === jobId
           ? { ...job, status: job.status === "OPEN" ? "CLOSED" : "OPEN" }
           : job
@@ -321,7 +311,6 @@ const EmployerDashboard = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           handleToggleJobStatus(job.id);
-                          console.log(`Job ID in html: ${job.id}`);
                         }}
                         className={`px-4 py-1 rounded-lg transition-colors text-sm cursor-pointer font-medium ${
                           job.status === "OPEN"
