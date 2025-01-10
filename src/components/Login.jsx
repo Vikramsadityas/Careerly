@@ -60,7 +60,7 @@ const Login = () => {
                   Start your professional journey with us today.
                 </p>
                 <p className="text-gray-300">
-                  Don't have an account?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link to="/signup" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
                     Sign Up
                   </Link>
