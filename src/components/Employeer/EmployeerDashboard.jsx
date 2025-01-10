@@ -42,41 +42,7 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-// JobCard component (if needed in the future)
-const JobCard = ({ job, onViewApplications, onToggleStatus }) => (
-  <div className="border border-white/20 rounded-xl p-4">
-    <div className="flex justify-between items-start mb-4">
-      <h3 className="text-xl font-semibold text-white">{job.title}</h3>
-      <StatusBadge status={job.status} />
-    </div>
-    <div className="flex justify-between items-center">
-      <div className="flex items-center space-x-2">
-        <Users size={18} className="text-gray-400" />
-        <span className="text-sm text-gray-400">
-          {job.applicationCount} applicants
-        </span>
-      </div>
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={() => onViewApplications(job)}
-          className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors text-sm font-medium"
-        >
-          View Applications
-        </button>
-        <button
-          onClick={() => onToggleStatus(job.id)}
-          className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
-            job.status === "OPEN"
-              ? "bg-green-500 hover:bg-green-600"
-              : "bg-red-500 hover:bg-red-600"
-          }`}
-        >
-          {job.status === "OPEN" ? "Close Job" : "Reopen Job"}
-        </button>
-      </div>
-    </div>
-  </div>
-);
+
 
 const EmployerDashboard = () => {
   const [profile, setProfile] = useState(null);
