@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, ChevronRight, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const GradientOrb = ({ className }) => (
   <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`} />
@@ -53,9 +54,14 @@ const DUMMY_JOBS = [
   }
 ];
 
-const JobCard = ({ job, onClick }) => (
+const JobCard = ({ job, onClick }) => {
+  const navigate=useNavigate();
+  const handleJob=()=>{
+    navigate(`/jobs/${job.id}`)
+  }
+  return (
   <button
-    onClick={onClick}
+    onClick={handleJob}
     className="w-full backdrop-blur-xl bg-gray-900/30 rounded-xl p-6 border border-white/10 
     hover:border-white/20 transition-all shadow-lg mb-4 text-left group"
   >
@@ -88,51 +94,9 @@ const JobCard = ({ job, onClick }) => (
       </span>
     </div>
   </button>
-);
+)};
 
-const JobDetails = ({ job, onClose, onApply }) => (
-  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div className="w-full max-w-2xl backdrop-blur-xl bg-gray-900/80 rounded-2xl p-8 border border-white/10 shadow-2xl">
-      <div className="flex justify-between items-start mb-6">
-        <h2 className="text-2xl font-bold text-white">{job.title}</h2>
-        <button
-          onClick={onClose}
-          className="p-1 hover:bg-white/10 rounded-full transition-colors"
-        >
-          <X className="text-white/70 hover:text-white" />
-        </button>
-      </div>
-      
-      <div className="space-y-4 mb-6">
-        <p className="text-gray-300">{job.description}</p>
-        <div className="flex flex-wrap gap-2">
-          {job.skillsRequired.map((skill, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 rounded-full bg-white/5 text-sm text-white/70"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-4 text-sm text-white/70">
-          <p>Location: {job.location}</p>
-          <p>Posted by: {job.postedBy}</p>
-          <p>Department: {job.department}</p>
-          <p>Experience Required: {job.experienceRequired}</p>
-        </div>
-      </div>
-      
-      <button
-        onClick={() => onApply(job.id)}
-        className="w-full py-3 px-4 bg-blue-500/80 hover:bg-blue-500/90 rounded-xl font-medium text-white 
-        transition-colors backdrop-blur-sm"
-      >
-        Apply Now
-      </button>
-    </div>
-  </div>
-);
+
 
 const JobBoard = () => {
   const [jobs, setJobs] = useState([]);

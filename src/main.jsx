@@ -10,7 +10,7 @@ import { Login } from "./components/index.js";
 import { Signup } from "./components/index.js";
 import Jobs from "./components/Jobs.jsx";
 import MyMessages from "./components/MyMessages.jsx";
-import PostJobs from "./components/PostJobs.jsx";
+import JobPostForm from "./components/PostForm.jsx";
 import MentorProfile from "./components/Mentor/MentorProfile.jsx";
 import EmployeerProfile from "./components/Employeer/EmployeerProfile.jsx";
 import MentorLoginForm from "./components/LoginasMentor.jsx";
@@ -20,6 +20,7 @@ import AllJobs from "./components/AllJobs.jsx";
 import AuthLayout from "./components/AuthLayout.jsx";
 import UserProfile from "./components/ProfileCard.jsx";
 import JobBoard from "./components/Jobs/JobBoard.jsx";
+import EmployerDashboard from "./components/Employeer/EmployeerDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -53,9 +54,7 @@ const router = createBrowserRouter([
       {
         path: "/jobs",
         element: (
-          <AuthLayout authentication>
             <JobBoard />
-          </AuthLayout>
         ),
       },
       {
@@ -70,26 +69,25 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/addJob/:jobId",
+        path: "/addJob/",
         element: (
           <AuthLayout authentication>
-            <PostJobs />
+            <JobPostForm />
           </AuthLayout>
         ),
       },
       {
         path: "/mentors",
         element: (
-          <AuthLayout authentication>
+          
             <MentorSearchPage />
-          </AuthLayout>
         ),
       },
       {
-        path: "/employeer",
+        path: "/employer",
         element: (
           <AuthLayout authentication>
-            <EmployerLoginForm />
+            <EmployeerProfile />
           </AuthLayout>
         ),
       },
@@ -102,11 +100,24 @@ const router = createBrowserRouter([
         )
       },
       {
-        path:"/profile/:profileId",
+        path:"/profile",
         element:(
           <AuthLayout authentication>
             <UserProfile/>
           </AuthLayout>
+        )
+      },
+      //temporarily using this route to test the Employee login and mentor login
+      {
+        path: "/employerlogin",
+        element:(
+          <EmployerLoginForm/>
+        )
+      },
+      {
+        path:"/employerdashboard",
+        element:(
+          <EmployerDashboard/>
         )
       }
     ],

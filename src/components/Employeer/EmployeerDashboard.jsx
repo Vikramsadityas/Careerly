@@ -306,7 +306,7 @@ const EmployerDashboard = () => {
                           e.stopPropagation();
                           handleToggleJobStatus(job.id);
                         }}
-                        className={`px-4 py-1 rounded-lg transition-colors text-sm font-medium ${
+                        className={`px-4 py-1 rounded-lg transition-colors text-sm cursor-pointer font-medium ${
                           job.status === "OPEN"
                             ? "bg-green-500 hover:bg-green-600"
                             : "bg-red-500 hover:bg-red-600"
