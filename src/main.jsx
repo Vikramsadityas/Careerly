@@ -18,6 +18,8 @@ import AuthLayout from "./components/AuthLayout.jsx";
 import UserProfile from "./components/ProfileCard.jsx";
 import JobBoard from "./components/Jobs/JobBoard.jsx";
 import EmployerDashboard from "./components/Employeer/EmployeerDashboard.jsx";
+import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
+import MentorDashboard from "./components/MentorDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -115,6 +117,18 @@ const router = createBrowserRouter([
         path:"/employerdashboard",
         element:(
           <EmployerDashboard/>
+        )
+      },
+      {
+        path:"/AdminDashboard",
+        element:(
+          <AdminDashboard/>
+        )
+      },
+      {
+        path:"/MentorDashboard",
+        element:(
+          <MentorDashboard/>
         )
       }
     ],
