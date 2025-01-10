@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import Wallet from './Wallet';
 const Home = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isHovered, setIsHovered] = useState(null);
@@ -18,6 +19,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black overflow-hidden">
+      {/* <Wallet/> */}
       {/* Dynamic Background Gradient */}
       <div className="fixed inset-0 bg-gradient-to-b from-gray-950 to-black opacity-80" />
       
@@ -102,9 +104,9 @@ const Home = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { number: "15,000+", label: "Active Opportunities" },
-                { number: "7,500+", label: "Expert Mentors" },
-                { number: "100,000+", label: "Success Stories" }
+                { number: "000", label: "Active Opportunities" },
+                { number:"4", label: "Expert Mentors" },
+                { number: "000", label: "Success Stories" }
               ].map((stat, index) => (
                 <div 
                   key={index}
@@ -178,7 +180,7 @@ const Home = () => {
               ))}
             </div>
             <div className="mt-16 pt-8 border-t border-white/10 text-center text-gray-400">
-              © 2025 Carrerly. All rights reserved.
+              © 2025 Team ARC. All rights to WAQF Board.
             </div>
           </div>
         </footer>
