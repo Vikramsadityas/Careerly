@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Settings, Bell, Search, UserCog, X, Component } from "lucide-react";
+import WalletComponent from "../Wallet/Wallet";
 
 // Reusable Modal component
 const Modal = ({ isOpen, onClose, title, children }) => (
@@ -131,9 +132,9 @@ const AdminDashboard = () => {
   const { adminId, name, role, department, recentActivity, metrics } = adminData;
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 md:p-8">
+    <div className="min-h-screen bg-black text-white p-4 md:p-8 ">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto mt-14">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -159,6 +160,7 @@ const AdminDashboard = () => {
             >
               <Settings size={24} />
             </button>
+            <WalletComponent/>
             <button className="p-2 hover:bg-white/5 rounded-lg transition-colors relative">
               <Bell size={24} />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
