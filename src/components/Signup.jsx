@@ -1,16 +1,39 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { signupService } from '../service/SignupService';
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  const create = async (data) => {
-    setError("");
-    console.log(data);
-  };
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
+
+
+  const signup = async (e) => {
+    e.preventDefault();
+
+    const credentials = {name, email, password};
+    console.log(credentials);
+    signupService(credentials).then((response) => {
+      console.log(response.data);
+      navigate('/'); 
+    }).catch((error) => {
+      console.log(error);
+      setError("Already have an account. Please Login.");
+    });
+
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4 relative overflow-hidden">
@@ -61,13 +84,14 @@ const Signup = () => {
                 </motion.p>
               )}
 
-              <form onSubmit={handleSubmit(create)} className="space-y-6">
+              <form onSubmit={handleSubmit(signupService)} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-gray-300 text-sm font-medium">Full Name</label>
                   <input
                     {...register("name", { required: true })}
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     placeholder="Enter your full name"
+                    onChange={handleNameChange}
                   />
                 </div>
 
@@ -81,6 +105,7 @@ const Signup = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     type="email"
                     placeholder="Enter your email"
+                    onChange={handleEmailChange}
                   />
                 </div>
 
@@ -91,6 +116,7 @@ const Signup = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     type="password"
                     placeholder="Enter your password"
+                    onChange={handlePasswordChange}
                   />
                 </div>
 
@@ -99,6 +125,7 @@ const Signup = () => {
                   whileTap={{ scale: 0.99 }}
                   type="submit"
                   className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg shadow-blue-600/20"
+                  onClick={signup}
                 >
                   Create Account
                 </motion.button>

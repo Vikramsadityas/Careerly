@@ -1,17 +1,34 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { loginService } from '../service/LoginService';
 
 const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  const login = async (data) => {
-    setError("");
-    console.log(data);
-    navigate("/");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
+
+  const login = async (e) => {
+    e.preventDefault();
+
+    const credentials = {email, password};
+    console.log(credentials);
+    loginService(credentials).then((response) => {
+      console.log(response.data);
+      navigate('/');
+    }).catch((error) => {
+      console.log(error);
+      setError("Invalid credentials. Please try again.");
+    })
   };
 
   return (
@@ -43,7 +60,7 @@ const Login = () => {
                   Start your professional journey with us today.
                 </p>
                 <p className="text-gray-300">
-                  Don't have an account?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link to="/signup" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
                     Sign Up
                   </Link>
@@ -74,6 +91,7 @@ const Login = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     placeholder="Enter your email"
                     type="email"
+                    onChange={handleEmailChange}
                   />
                 </div>
 
@@ -84,6 +102,7 @@ const Login = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     type="password"
                     placeholder="Enter your password"
+                    onChange={handlePasswordChange}
                   />
                 </div>
 
@@ -92,8 +111,9 @@ const Login = () => {
                   whileTap={{ scale: 0.99 }}
                   type="submit"
                   className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg shadow-blue-600/20"
+                  onClick={login}
                 >
-                  Sign in
+                  Login
                 </motion.button>
               </form>
             </div>
@@ -103,5 +123,8 @@ const Login = () => {
     </div>
   );
 };
+
+
+
 
 export default Login;
