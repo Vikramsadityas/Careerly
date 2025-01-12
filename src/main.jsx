@@ -127,7 +127,7 @@ const router = createBrowserRouter([
         )
       },
       {
-        path:"/MentorDashboard",
+        path:"/MentorDashboard/:mentorId",
         element:(
           <MentorDashboard/>
         )
