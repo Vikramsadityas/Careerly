@@ -11,13 +11,13 @@ import { Signup } from "./components/index.js";
 import MyMessages from "./components/MyMessages.jsx";
 import JobPostForm from "./components/PostForm.jsx";
 import MentorProfile from "./components/Mentor/MentorProfile.jsx";
-import EmployeerProfile from "./components/Employeer/EmployeerProfile.jsx";
-import EmployerLoginForm from "./components/LoginasEmployeer.jsx";
+import EmployerProfile from "./components/Employer/EmployerProfile.jsx";
+import EmployerLoginForm from "./components/LoginasEmployer.jsx";
 import MentorSearchPage from "./components/MentorSearchPage.jsx";
 import AuthLayout from "./components/AuthLayout.jsx";
 import UserProfile from "./components/ProfileCard.jsx";
 import JobBoard from "./components/Jobs/JobBoard.jsx";
-import EmployerDashboard from "./components/Employeer/EmployeerDashboard.jsx";
+import EmployerDashboard from "./components/Employer/EmployerDashboard.jsx";
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import MentorDashboard from "./components/MentorDashboard.jsx";
 
@@ -86,7 +86,7 @@ const router = createBrowserRouter([
         path: "/employer",
         element: (
           <AuthLayout authentication>
-            <EmployeerProfile />
+            <EmployerProfile />
           </AuthLayout>
         ),
       },
