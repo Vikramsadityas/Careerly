@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, ChevronRight, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import JobDetails from './JobDetails';
+import { useNavigate } from 'react-router-dom';
 
 const GradientOrb = ({ className }) => (
   <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`} />
@@ -90,49 +93,6 @@ const JobCard = ({ job, onClick }) => (
   </button>
 );
 
-const JobDetails = ({ job, onClose, onApply }) => (
-  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div className="w-full max-w-2xl backdrop-blur-xl bg-gray-900/80 rounded-2xl p-8 border border-white/10 shadow-2xl">
-      <div className="flex justify-between items-start mb-6">
-        <h2 className="text-2xl font-bold text-white">{job.title}</h2>
-        <button
-          onClick={onClose}
-          className="p-1 hover:bg-white/10 rounded-full transition-colors"
-        >
-          <X className="text-white/70 hover:text-white" />
-        </button>
-      </div>
-      
-      <div className="space-y-4 mb-6">
-        <p className="text-gray-300">{job.description}</p>
-        <div className="flex flex-wrap gap-2">
-          {job.skillsRequired.map((skill, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 rounded-full bg-white/5 text-sm text-white/70"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-4 text-sm text-white/70">
-          <p>Location: {job.location}</p>
-          <p>Posted by: {job.postedBy}</p>
-          <p>Department: {job.department}</p>
-          <p>Experience Required: {job.experienceRequired}</p>
-        </div>
-      </div>
-      
-      <button
-        onClick={() => onApply(job.id)}
-        className="w-full py-3 px-4 bg-blue-500/80 hover:bg-blue-500/90 rounded-xl font-medium text-white 
-        transition-colors backdrop-blur-sm"
-      >
-        Apply Now
-      </button>
-    </div>
-  </div>
-);
 
 const JobBoard = () => {
   const [jobs, setJobs] = useState([]);
@@ -141,7 +101,7 @@ const JobBoard = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Simulate API call with dummy data
     setTimeout(() => {
@@ -190,13 +150,15 @@ const JobBoard = () => {
     }
     */
   };
-
+  const handlejobdetails=()=>{
+    navigate(`/jobs/${selectedJob.id}`);
+  }
   const filteredJobs = jobs.filter(job =>
     job.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white p-20 relative overflow-hidden">
       {/* Gradient Orbs */}
       <GradientOrb className="w-96 h-96 bg-purple-500 left-0 top-0" />
       <GradientOrb className="w-96 h-96 bg-blue-500 right-0 bottom-0" />
@@ -264,15 +226,7 @@ const JobBoard = () => {
           </div>
         )}
       </div>
-
-      {/* Job Details Modal */}
-      {selectedJob && (
-        <JobDetails
-          job={selectedJob}
-          onClose={() => setSelectedJob(null)}
-          onApply={handleApply}
-        />
-      )}
+      {selectedJob && handlejobdetails(selectedJob)}
     </div>
   );
 };

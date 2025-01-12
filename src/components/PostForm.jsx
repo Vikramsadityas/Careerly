@@ -1,199 +1,221 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Building2, MapPin, FileText, Briefcase, Tag, CheckCircle, AlertCircle, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Plus, X } from 'lucide-react';
 
-export default function JobPostForm() {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
-        defaultValues: {
-            title: "",
-            description: "",
-            location: "",
-            skillsRequired: [],
-            jobStatus: "OPEN",
-            company: ""
-        }
+const JobPostingForm = () => {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    location: '',
+    skillsRequired: [],
+    jobStatus: 'OPEN',
+    company: ''
+  });
+  const [currentSkill, setCurrentSkill] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('localhost:8080/employers/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        alert('Job posted successfully!');
+        setFormData({
+          title: '',
+          description: '',
+          location: '',
+          skillsRequired: [],
+          jobStatus: 'OPEN',
+          company: ''
+        });
+      }
+    } catch (error) {
+      console.error('Error posting job:', error);
+    }
+  };
+
+  const addSkill = () => {
+    if (currentSkill.trim() && !formData.skillsRequired.includes(currentSkill)) {
+      setFormData({
+        ...formData,
+        skillsRequired: [...formData.skillsRequired, currentSkill.trim()]
+      });
+      setCurrentSkill('');
+    }
+  };
+
+  const removeSkill = (skillToRemove) => {
+    setFormData({
+      ...formData,
+      skillsRequired: formData.skillsRequired.filter(skill => skill !== skillToRemove)
     });
+  };
 
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+  return (
+    <div className="min-h-screen bg-gray-900 relative overflow-hidden p-20">
+      {/* Gradient Orbs */}
+      <motion.div
+        className="absolute top-0 left-0 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl opacity-20"
+        animate={{
+          scale: [1, 1.2, 1],
+          x: [0, 50, 0],
+          y: [0, 30, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-20"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          x: [0, -50, 0],
+          y: [0, -30, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
 
-    const onSubmit = async (data) => {
-        setError(null);
-        // try {
-        //     const response = await fetch("http://localhost:8080/employers/jobs", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             ...data,
-        //             skillsRequired: data.skillsRequired.split(',').map(skill => skill.trim())
-        //         })
-        //     });
+      {/* Form Container */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-2xl mx-auto backdrop-blur-lg bg-white/10 p-8 rounded-2xl shadow-2xl border border-white/20"
+      >
+        <h2 className="text-3xl font-bold text-white mb-6">Post a New Job</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <label className="block text-white text-sm font-medium mb-2">Job Title</label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                className="w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                placeholder="Senior Software Engineer"
+                required
+              />
+            </motion.div>
 
-        //     if (!response.ok) throw new Error("Failed to create job post");
-        //     const result = await response.json();
-        //     navigate(`/jobs/${result.jobId}`);
-        // } catch (err) {
-        //     setError(err.message);
-        // }
-    };
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <label className="block text-white text-sm font-medium mb-2">Company</label>
+              <input
+                type="text"
+                value={formData.company}
+                onChange={(e) => setFormData({...formData, company: e.target.value})}
+                className="w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                placeholder="Company Name"
+                required
+              />
+            </motion.div>
 
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 p-4 sm:p-6 lg:p-8 ">
-            <div className="max-w-4xl mx-auto mt-10">
-                {/* Header */}
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-500/10 mb-4">
-                        <Briefcase className="w-8 h-8 text-indigo-400" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-white mb-3">
-                        Create Job Posting
-                    </h1>
-                    <p className="text-slate-400">
-                        Fill in the details below to create a new job opportunity
-                    </p>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <label className="block text-white text-sm font-medium mb-2">Location</label>
+              <input
+                type="text"
+                value={formData.location}
+                onChange={(e) => setFormData({...formData, location: e.target.value})}
+                className="w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                placeholder="New York, NY"
+                required
+              />
+            </motion.div>
 
-                {/* Error Alert */}
-                {error && (
-                    <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-start gap-3">
-                        <AlertCircle className="w-5 h-5 text-red-400 mt-0.5" />
-                        <div className="flex-1 text-red-400">{error}</div>
-                        <button 
-                            onClick={() => setError(null)}
-                            className="text-red-400 hover:text-red-300 transition-colors"
-                        >
-                            <X className="w-5 h-5" />
-                        </button>
-                    </div>
-                )}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <label className="block text-white text-sm font-medium mb-2">Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                className="w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 h-32"
+                placeholder="Job description..."
+                required
+              />
+            </motion.div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Job Title */}
-                        <div className="col-span-2">
-                            <label className="block">
-                                <span className="inline-flex items-center text-sm font-medium text-slate-300 mb-2">
-                                    <Briefcase className="w-4 h-4 mr-2" />
-                                    Job Title
-                                </span>
-                                <input
-                                    type="text"
-                                    {...register("title", { required: "Job title is required" })}
-                                    className="w-full px-4 py-3 bg-slate-950/50 rounded-lg border border-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 text-white placeholder-slate-500"
-                                    placeholder="e.g. Senior Frontend Developer"
-                                />
-                                {errors.title && (
-                                    <span className="text-red-400 text-sm mt-1 block">{errors.title.message}</span>
-                                )}
-                            </label>
-                        </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+              className="space-y-2"
+            >
+              <label className="block text-white text-sm font-medium mb-2">Skills Required</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={currentSkill}
+                  onChange={(e) => setCurrentSkill(e.target.value)}
+                  className="flex-1 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                  placeholder="Add a skill"
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
+                />
+                <button
+                  type="button"
+                  onClick={addSkill}
+                  className="p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                >
+                  <Plus className="w-6 h-6 text-white" />
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {formData.skillsRequired.map((skill, index) => (
+                  <motion.span
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                  >
+                    {skill}
+                    <button
+                      type="button"
+                      onClick={() => removeSkill(skill)}
+                      className="ml-2 text-blue-300 hover:text-blue-100"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
-                        {/* Company */}
-                        <div>
-                            <label className="block">
-                                <span className="inline-flex items-center text-sm font-medium text-slate-300 mb-2">
-                                    <Building2 className="w-4 h-4 mr-2" />
-                                    Company
-                                </span>
-                                <input
-                                    type="text"
-                                    {...register("company", { required: "Company name is required" })}
-                                    className="w-full px-4 py-3 bg-slate-950/50 rounded-lg border border-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 text-white placeholder-slate-500"
-                                    placeholder="Your company name"
-                                />
-                                {errors.company && (
-                                    <span className="text-red-400 text-sm mt-1 block">{errors.company.message}</span>
-                                )}
-                            </label>
-                        </div>
+          <motion.button
+            type="submit"
+            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Post Job
+          </motion.button>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
 
-                        {/* Location */}
-                        <div>
-                            <label className="block">
-                                <span className="inline-flex items-center text-sm font-medium text-slate-300 mb-2">
-                                    <MapPin className="w-4 h-4 mr-2" />
-                                    Location
-                                </span>
-                                <input
-                                    type="text"
-                                    {...register("location", { required: "Location is required" })}
-                                    className="w-full px-4 py-3 bg-slate-950/50 rounded-lg border border-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 text-white placeholder-slate-500"
-                                    placeholder="e.g. Remote, New York, London"
-                                />
-                                {errors.location && (
-                                    <span className="text-red-400 text-sm mt-1 block">{errors.location.message}</span>
-                                )}
-                            </label>
-                        </div>
-
-                        {/* Required Skills */}
-                        <div className="col-span-2">
-                            <label className="block">
-                                <span className="inline-flex items-center text-sm font-medium text-slate-300 mb-2">
-                                    <Tag className="w-4 h-4 mr-2" />
-                                    Required Skills
-                                </span>
-                                <input
-                                    type="text"
-                                    {...register("skillsRequired", { required: "At least one skill is required" })}
-                                    className="w-full px-4 py-3 bg-slate-950/50 rounded-lg border border-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 text-white placeholder-slate-500"
-                                    placeholder="e.g. React, Node.js, TypeScript (comma separated)"
-                                />
-                                {errors.skillsRequired && (
-                                    <span className="text-red-400 text-sm mt-1 block">{errors.skillsRequired.message}</span>
-                                )}
-                            </label>
-                        </div>
-
-                        {/* Job Description */}
-                        <div className="col-span-2">
-                            <label className="block">
-                                <span className="inline-flex items-center text-sm font-medium text-slate-300 mb-2">
-                                    <FileText className="w-4 h-4 mr-2" />
-                                    Job Description
-                                </span>
-                                <textarea
-                                    {...register("description", { required: "Job description is required" })}
-                                    className="w-full px-4 py-3 bg-slate-950/50 rounded-lg border border-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 text-white placeholder-slate-500 min-h-[200px] resize-y"
-                                    placeholder="Describe the role, responsibilities, and requirements..."
-                                />
-                                {errors.description && (
-                                    <span className="text-red-400 text-sm mt-1 block">{errors.description.message}</span>
-                                )}
-                            </label>
-                        </div>
-
-                        {/* Job Status */}
-                    </div>
-
-                    {/* Submit Button */}
-                    <div className="pt-6">
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
-                        >
-                            <span className="relative z-10 flex items-center justify-center gap-2">
-                                {isSubmitting ? (
-                                    <>
-                                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                                        </svg>
-                                        Creating Post...
-                                    </>
-                                ) : (
-                                    'Create Job Post'
-                                )}
-                            </span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 opacity-0 group-hover:opacity-10 transition-opacity duration-200" />
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-}
+export default JobPostingForm;
