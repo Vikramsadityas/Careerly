@@ -79,12 +79,11 @@ export default function ModernNavbar() {
           <div className="hidden sm:flex items-center space-x-4">
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <Link
-                  to="/support"
-                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white text-sm font-medium transition-all duration-300"
+                <div className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white text-sm font-medium transition-all duration-300"
+                onClick={logout}
                 >
                   Logout
-                </Link>
+                </div>
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center cursor-pointer transform hover:scale-105 transition-all duration-300"
                 onClick={()=>navigate(`/profile/`)}>
                   <span className="text-white font-medium">A</span>

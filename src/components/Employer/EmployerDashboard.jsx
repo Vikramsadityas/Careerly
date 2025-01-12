@@ -214,7 +214,7 @@ const EmployerDashboard = () => {
       <GradientOrb className="w-96 h-96 bg-blue-500 right-0 bottom-0" />
       <GradientOrb className="w-64 h-64 bg-pink-500 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" />
 
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8 p-24">
         {/* Profile Section */}
         <div className="backdrop-blur-xl bg-gray-900/30 rounded-3xl p-6 border border-white/20">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-6">
