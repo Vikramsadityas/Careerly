@@ -1,42 +1,37 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { loginService } from '../service/LoginService';
+import axios from 'axios';
+import apiClient from './ApiClient';
+
 
 const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
-
-  const login = async (e) => {
-    e.preventDefault();
-
-    const credentials = {email, password};
-    console.log(credentials);
-    loginService(credentials).then((response) => {
-      console.log(response.data);
-      navigate('/');
-    }).catch((error) => {
-      console.log(error);
-      setError("Invalid credentials. Please try again.");
-    })
+  const login = async ({ email, password }) => {
+    try {
+      const response = await apiClient.post("http://localhost:8080/auth/login", { email, password });
+      const accessToken = await response.data.data.accessToken; // Correct destructuring
+      console.log("accessToken",accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      if(accessToken){
+      navigate('/'); // Redirect to the home page after successful login
+      }
+    } catch (error) {
+      console.error(error);
+      setError('Invalid credentials. Please try again.');
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Gradient Orbs */}
       <div className="absolute -left-4 w-96 h-96 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob" />
       <div className="absolute -right-4 w-96 h-96 bg-blue-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000" />
-      
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -45,7 +40,6 @@ const Login = () => {
       >
         <div className="backdrop-blur-xl bg-white/[0.02] rounded-3xl shadow-2xl border border-white/[0.05] overflow-hidden">
           <div className="flex flex-col lg:flex-row">
-            {/* Left Side - Welcome Message */}
             <div className="lg:w-5/12 p-8 lg:p-12 bg-gradient-to-br from-black/50 to-transparent flex flex-col justify-center">
               <motion.div
                 initial={{ scale: 0.9 }}
@@ -68,7 +62,6 @@ const Login = () => {
               </motion.div>
             </div>
 
-            {/* Right Side - Form */}
             <div className="lg:w-7/12 p-8 lg:p-12 bg-black/20">
               {error && (
                 <motion.p 
@@ -86,12 +79,11 @@ const Login = () => {
                   <input
                     {...register("email", {
                       required: true,
-                      pattern: /^\w+([.-]?\w+)@\w+([.-]?\w+)(\.\w{2,3})+$/
+                      pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
                     })}
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     placeholder="Enter your email"
                     type="email"
-                    onChange={handleEmailChange}
                   />
                 </div>
 
@@ -102,7 +94,6 @@ const Login = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:ring-1 focus:bg-white/[0.05] transition-all duration-200"
                     type="password"
                     placeholder="Enter your password"
-                    onChange={handlePasswordChange}
                   />
                 </div>
 
@@ -111,7 +102,6 @@ const Login = () => {
                   whileTap={{ scale: 0.99 }}
                   type="submit"
                   className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg shadow-blue-600/20"
-                  onClick={login}
                 >
                   Login
                 </motion.button>
@@ -123,8 +113,4 @@ const Login = () => {
     </div>
   );
 };
-
-
-
-
 export default Login;

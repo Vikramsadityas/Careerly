@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {  ChevronDown, X } from "lucide-react";
 import WalletComponent from "./Wallet/Wallet";
 
+
 // Decorative gradient orb component for background effects
 const GradientOrb = ({ className }) => (
   <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`} />

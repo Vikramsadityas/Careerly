@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Wallet from './Wallet/Wallet';
-// import Wallet from './Wallet';
 const Home = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isHovered, setIsHovered] = useState(null);

@@ -93,7 +93,7 @@ const MessageCard = () => {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4">
+    <div className="h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 mt-0">
       <div className="h-full max-w-6xl mx-auto bg-gray-900/40 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-700/30 shadow-2xl flex">
         {/* Mobile Menu Button */}
         <button 

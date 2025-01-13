@@ -1,13 +1,13 @@
 import { Outlet} from 'react-router-dom'
 import './App.css'
-import { NavbarComp } from './components'
+import ModernNavbar from './components/Navbar.jsx'
 function App() {
 
   return (
     <>
     
     
-    <NavbarComp/>
+    <ModernNavbar/>
     <Outlet />
     
     

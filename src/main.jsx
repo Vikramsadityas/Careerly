@@ -2,27 +2,26 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { NextUIProvider } from "@nextui-org/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// import {AuthLayout} from "./components/index.js"
 import "./index.css";
 import App from "./App.jsx";
-import { Home } from "./components/index.js";
-import { Login } from "./components/index.js";
-import { Signup } from "./components/index.js";
+import Home  from "./components/Home.jsx";
+import Login from "./components/Auth/Login.jsx";
+import Signup  from "./components/Auth/Signup.jsx";
 import MyMessages from "./components/Chat/MyMessages.jsx";
 import JobPostForm from "./components/Jobs/PostForm.jsx";
 import MentorProfile from "./components/Mentor/MentorProfile.jsx";
 import EmployerProfile from "./components/Employer/EmployerProfile.jsx";
-import EmployerLoginForm from "./components/LoginasEmployer.jsx";
-import MentorSearchPage from "./components/MentorSearchPage.jsx";
-import AuthLayout from "./components/AuthLayout.jsx";
+import EmployerLoginForm from "./components/Employer/LoginasEmployer.jsx";
+import MentorSearchPage from "./components/Mentor/MentorSearchPage.jsx";
 import UserProfile from "./components/ProfileCard.jsx";
 import JobBoard from "./components/Jobs/JobBoard.jsx";
 import EmployerDashboard from "./components/Employer/EmployerDashboard.jsx";
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
-import MentorDashboard from "./components/MentorDashboard.jsx";
+import MentorDashboard from "./components/Mentor/MentorDashboard.jsx";
 import JobDetails from "./components/Jobs/JobDetails.jsx";
 import JobApplicationForm from "./components/Jobs/ApplyJob.jsx";
-
+import Protected from "./components/Auth/Protected.jsx";  // Assuming the Protected component is separate
+import PublicRoute from "./components/Auth/PublicRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,11 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: (
-          <AuthLayout authentication={false}>
-            <Login />
-          </AuthLayout>
-        ),
+        element: <PublicRoute><Login /></PublicRoute>,
         loader: () => {
           console.log("Login route matched");
           return null;
@@ -46,116 +41,100 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: (
-          <AuthLayout authentication={false}>
-            <Signup />
-          </AuthLayout>
-        ),
+        element: <PublicRoute><Signup /></PublicRoute>,
       },
       {
         path: "/jobs",
-        element: (
-            <JobBoard />
-        ),
+        element: <JobBoard />,
       },
       {
         path: "/interactions",
         element: (
-          // <AuthLayout authentication={false}>
-          //     <Signup />
-          // </AuthLayout>
-          <AuthLayout authentication>
+          <Protected authentication={true}>
             <MyMessages />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
-        path: "/addJob/",
+        path: "/addJob",
         element: (
-          <AuthLayout authentication>
+          <Protected authentication={true}>
             <JobPostForm />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
         path: "/mentors",
-        element: (
-          
-            <MentorSearchPage />
-        ),
+        element: <MentorSearchPage />,
       },
       {
         path: "/employer",
         element: (
-          <AuthLayout authentication>
+          <Protected authentication={true}>
             <EmployerProfile />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
         path: "/mentor-profile/:mentorId",
-        element:(
-          <AuthLayout authentication>
-            <MentorProfile/>
-          </AuthLayout>
-        )
+        element: (
+          <Protected authentication={true}>
+            <MentorProfile />
+          </Protected>
+        ),
       },
       {
-        path:"/profile",
-        element:(
-          <AuthLayout authentication>
-            <UserProfile/>
-          </AuthLayout>
-        )
+        path: "/profile",
+        element: (
+          <Protected authentication={true}>
+            <UserProfile />
+          </Protected>
+        ),
       },
-      //temporarily using this route to test the Employee login and mentor login
       {
         path: "/employerlogin",
-        element:(
-
-          <EmployerLoginForm/>
-        )
+        element: <EmployerLoginForm />,
       },
       {
-        path:"/employerdashboard",
-        element:(
-          <AuthLayout authentication>
-            <EmployerDashboard/>
-          </AuthLayout>
-        )
+        path: "/employerdashboard",
+        element: (
+          <Protected authentication={true}>
+            <EmployerDashboard />
+          </Protected>
+        ),
       },
       {
-        path:"/AdminDashboard",
-        element:(
-          <AuthLayout authentication>
-            <AdminDashboard/>
-          </AuthLayout>
-        )
+        path: "/AdminDashboard",
+        element: (
+          <Protected authentication={true}>
+            <AdminDashboard />
+          </Protected>
+        ),
       },
       {
-        path:"/MentorDashboard/:mentorId",
-        element:(
-          <AuthLayout authentication>
-            <MentorDashboard/>
-          </AuthLayout>
-        )
+        path: "/MentorDashboard/:mentorId",
+        element: (
+          <Protected authentication={true}>
+            <MentorDashboard />
+          </Protected>
+        ),
       },
       {
-        path:"/jobs/:jobId",
-        element:(
-          <AuthLayout authentication>
-            <JobDetails/>
-          </AuthLayout>
-        )
+        path: "/jobs/:jobId",
+        element: (
+          <Protected authentication={true}>
+            <JobDetails />
+          </Protected>
+        ),
       },
       {
-        path:"/apply/:jobId",
-        element:(
-          <AuthLayout authentication>
-            <JobApplicationForm/>
-          </AuthLayout>
-        )
-      }
+        path: "/apply/:jobId",
+        element: (
+          <Protected authentication={true}>
+            <JobApplicationForm />
+          </Protected>
+        ),
+      },
     ],
   },
 ]);

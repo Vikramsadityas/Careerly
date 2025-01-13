@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { signupService } from '../service/SignupService';
+import { signupService } from '../../service/SignupService';
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
@@ -24,10 +24,8 @@ const Signup = () => {
     e.preventDefault();
 
     const credentials = {name, email, password};
-    console.log(credentials);
     signupService(credentials).then((response) => {
-      console.log(response.data);
-      navigate('/'); 
+      navigate('/login'); 
     }).catch((error) => {
       console.log(error);
       setError("Already have an account. Please Login.");
