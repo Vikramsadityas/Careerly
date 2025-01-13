@@ -20,7 +20,7 @@ import JobBoard from "./components/Jobs/JobBoard.jsx";
 import EmployerDashboard from "./components/Employer/EmployerDashboard.jsx";
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import MentorDashboard from "./components/MentorDashboard.jsx";
-
+import JobAddForm from "./components/Jobs/JobAddForm.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -129,6 +129,11 @@ const router = createBrowserRouter([
         path:"/MentorDashboard",
         element:(
           <MentorDashboard/>
+        )
+      },{
+        path:"/himanshu",
+        element:(
+          <JobAddForm/>
         )
       }
     ],
