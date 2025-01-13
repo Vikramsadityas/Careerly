@@ -9,7 +9,7 @@ import { Home } from "./components/index.js";
 import { Login } from "./components/index.js";
 import { Signup } from "./components/index.js";
 import MyMessages from "./components/MyMessages.jsx";
-import JobPostForm from "./components/PostForm.jsx";
+import JobPostForm from "./components/Jobs/PostForm.jsx";
 import MentorProfile from "./components/Mentor/MentorProfile.jsx";
 import EmployerProfile from "./components/Employer/EmployerProfile.jsx";
 import EmployerLoginForm from "./components/LoginasEmployer.jsx";
@@ -21,6 +21,7 @@ import EmployerDashboard from "./components/Employer/EmployerDashboard.jsx";
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import MentorDashboard from "./components/MentorDashboard.jsx";
 import JobDetails from "./components/Jobs/JobDetails.jsx";
+import JobApplicationForm from "./components/Jobs/ApplyJob.jsx";
 
 const router = createBrowserRouter([
   {
@@ -136,6 +137,12 @@ const router = createBrowserRouter([
         path:"/jobs/:jobId",
         element:(
           <JobDetails/>
+        )
+      },
+      {
+        path:"/apply/:jobId",
+        element:(
+          <JobApplicationForm/>
         )
       }
     ],

@@ -68,6 +68,7 @@ const JobDetails = () => {
   const { jobId } = useParams();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,7 +81,7 @@ const JobDetails = () => {
   }, [jobId]);
 
   const handleApply = async (jobId) => {
-    console.log(`Applied to job ${jobId}`);
+    navigate(`/apply/${jobId}`);
   };
 
   if (loading) {
