@@ -200,7 +200,6 @@ const MentorProfile = () => {
                   <p className="text-xl text-white/80 mb-2">{mentor.user.title}</p>
                   <p className="text-white/60">{mentor.user.company}</p>
                   </div>
-                <WalletComponent />
                 </div>
               </div>
 
