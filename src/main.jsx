@@ -8,7 +8,7 @@ import App from "./App.jsx";
 import { Home } from "./components/index.js";
 import { Login } from "./components/index.js";
 import { Signup } from "./components/index.js";
-import MyMessages from "./components/MyMessages.jsx";
+import MyMessages from "./components/Chat/MyMessages.jsx";
 import JobPostForm from "./components/Jobs/PostForm.jsx";
 import MentorProfile from "./components/Mentor/MentorProfile.jsx";
 import EmployerProfile from "./components/Employer/EmployerProfile.jsx";
@@ -112,37 +112,48 @@ const router = createBrowserRouter([
       {
         path: "/employerlogin",
         element:(
+
           <EmployerLoginForm/>
         )
       },
       {
         path:"/employerdashboard",
         element:(
-          <EmployerDashboard/>
+          <AuthLayout authentication>
+            <EmployerDashboard/>
+          </AuthLayout>
         )
       },
       {
         path:"/AdminDashboard",
         element:(
-          <AdminDashboard/>
+          <AuthLayout authentication>
+            <AdminDashboard/>
+          </AuthLayout>
         )
       },
       {
         path:"/MentorDashboard/:mentorId",
         element:(
-          <MentorDashboard/>
+          <AuthLayout authentication>
+            <MentorDashboard/>
+          </AuthLayout>
         )
       },
       {
         path:"/jobs/:jobId",
         element:(
-          <JobDetails/>
+          <AuthLayout authentication>
+            <JobDetails/>
+          </AuthLayout>
         )
       },
       {
         path:"/apply/:jobId",
         element:(
-          <JobApplicationForm/>
+          <AuthLayout authentication>
+            <JobApplicationForm/>
+          </AuthLayout>
         )
       }
     ],
