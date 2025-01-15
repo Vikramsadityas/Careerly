@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { User, X } from "lucide-react";
+import {  useNavigate } from 'react-router-dom';
 
 const MentorLoginForm = () => {
   const [formData, setFormData] = useState({
     bio: '',
     expertise: []
   });
-
+  const navigate=useNavigate();
   const [expertiseInput, setExpertiseInput] = useState('');
   const [errors, setErrors] = useState({});
   
@@ -66,6 +67,7 @@ const MentorLoginForm = () => {
 
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formData);
+      navigate(`/mentor-profile/${formData.id}`);
     } else {
       setErrors(newErrors);
     }

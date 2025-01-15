@@ -42,7 +42,7 @@ const Protected = ({ children, authentication }) => {
           }
   
           // If the token is valid and authentication is not required, redirect to home
-          if (!authentication && !token) {
+          if (!authentication && token) {
             navigate('/');
           }
         } catch (error) {
@@ -51,7 +51,7 @@ const Protected = ({ children, authentication }) => {
             navigate('/login');
           }
         }
-      } else if (authentication) {
+      } else if ( !token) {
         // If no token is found, redirect to login page
         navigate('/login');
       }
