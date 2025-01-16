@@ -1,61 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, ChevronRight, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import JobDetails from './JobDetails';
+import { Search, Plus, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../Auth/ApiClient';
 
 const GradientOrb = ({ className }) => (
   <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`} />
 );
-
-// Dummy data
-const DUMMY_JOBS = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    description: "We're looking for an experienced Frontend Developer proficient in React and modern JavaScript frameworks. The ideal candidate will have strong experience with responsive design and modern web technologies.",
-    postedBy: "Tech Department",
-    skillsRequired: ["React", "TypeScript", "Tailwind CSS", "Next.js"],
-    location: "San Francisco, CA",
-    status: "Active",
-    department: "Engineering",
-    experienceRequired: "5+ years"
-  },
-  {
-    id: 2,
-    title: "Backend Engineer",
-    description: "Seeking a Backend Engineer to develop scalable server-side applications. Experience with microservices architecture and cloud platforms is required.",
-    postedBy: "Engineering Team",
-    skillsRequired: ["Java", "Spring Boot", "MySQL", "AWS"],
-    location: "New York, NY",
-    status: "Active",
-    department: "Engineering",
-    experienceRequired: "3+ years"
-  },
-  {
-    id: 3,
-    title: "Product Designer",
-    description: "Looking for a creative Product Designer to join our UX team. Should have experience with modern design tools and user-centered design principles.",
-    postedBy: "Design Team",
-    skillsRequired: ["Figma", "UI/UX", "Prototyping", "Design Systems"],
-    location: "Remote",
-    status: "Active",
-    department: "Design",
-    experienceRequired: "4+ years"
-  },
-  {
-    id: 4,
-    title: "DevOps Engineer",
-    description: "Experienced DevOps Engineer needed to improve and maintain our CI/CD pipelines and cloud infrastructure.",
-    postedBy: "Infrastructure Team",
-    skillsRequired: ["Docker", "Kubernetes", "Jenkins", "AWS"],
-    location: "Seattle, WA",
-    status: "Active",
-    department: "Operations",
-    experienceRequired: "3+ years"
-  }
-];
-
 const JobCard = ({ job, onClick }) => (
   <button
     onClick={onClick}
@@ -69,114 +19,110 @@ const JobCard = ({ job, onClick }) => (
       </div>
       <ChevronRight className="text-white/50 group-hover:text-white/80 transition-colors" />
     </div>
-    
+
     <div className="flex flex-wrap gap-2 mb-3">
-      {job.skillsRequired.map((skill, index) => (
-        <span
-          key={index}
-          className="px-3 py-1 rounded-full bg-white/5 text-xs text-white/70"
-        >
-          {skill}
-        </span>
-      ))}
+      {job.skillsRequired && job.skillsRequired.length > 0 ? (
+        job.skillsRequired.map((skill, index) => (
+          <span
+            key={index}
+            className="px-3 py-1 rounded-full bg-white/5 text-xs text-white/70"
+          >
+            {skill}
+          </span>
+        ))
+      ) : (
+        <span className="text-sm text-white/50">No skills specified</span>
+      )}
     </div>
-    
+
     <div className="flex justify-between items-center text-sm text-white/60">
-      <span>Posted by: {job.postedBy}</span>
-      <span>{job.location}</span>
-      <span className={`px-2 py-1 rounded-full ${
-        job.status === 'Active' ? 'bg-green-500/20 text-green-300' : 'bg-yellow-500/20 text-yellow-300'
-      }`}>
-        {job.status}
+      <span>Posted by: {job.company || 'Unknown'}</span>
+      <span>{job.location || 'No location specified'}</span>
+      <span
+        className={`px-2 py-1 rounded-full ${
+          job.jobStatus === 'Active'
+            ? 'bg-green-500/20 text-green-300'
+            : 'bg-yellow-500/20 text-yellow-300'
+        }`}
+      >
+        {job.jobStatus || 'Unknown'}
       </span>
     </div>
   </button>
 );
 
-
 const JobBoard = () => {
   const [jobs, setJobs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    // Simulate API call with dummy data
-    setTimeout(() => {
-      setJobs(DUMMY_JOBS);
-      setTotalPages(1);
-      setLoading(false);
-    }, 500);
 
-    // Commented out actual API implementation for future use
-    /*
+  useEffect(() => {
     const fetchJobs = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const response = await fetch(
-          http://localhost:8080/employers/job-applications?pageOffset=${page}&pageSize=10&search=${searchQuery}
+        const response = await apiClient.get(
+          `http://localhost:8080/public/jobs`,
+          {
+            params: {
+              pageOffset: page,
+              pageSize: 10,
+              search: searchQuery,
+            },
+          }
         );
-        const data = await response.json();
-        setJobs(data.content);
-        setTotalPages(data.totalPages);
-        setLoading(false);
+
+        if (response.data?.data) {
+          const { content, totalPages } = response.data.data;
+          setJobs(content || []);
+          setTotalPages(totalPages || 0);
+        } else {
+          setError('Invalid data format received');
+        }
       } catch (error) {
         console.error('Error fetching jobs:', error);
+        setError('Failed to fetch jobs. Please try again later.');
+      } finally {
         setLoading(false);
       }
     };
+
     fetchJobs();
-    */
   }, [page, searchQuery]);
 
-  const handleApply = async (jobId) => {
-    // Simulate successful application
-    console.log(`Applied to job ${jobId}`);
-    setSelectedJob(null);
-
-    // Commented out actual API implementation for future use
-    /*
-    try {
-      const response = await fetch(http://localhost:8080/employers/applicants/${jobId}, {
-        method: 'GET'
-      });
-      if (response.ok) {
-        setSelectedJob(null);
-        // Show success message
-      }
-    } catch (error) {
-      console.error('Error applying for job:', error);
-    }
-    */
+  const handleJobClick = (job) => {
+    navigate(`/jobs/${job.jobId}`);
   };
-  const handlejobdetails=()=>{
-    navigate(`/jobs/${selectedJob.id}`);
-  }
-  const filteredJobs = jobs.filter(job =>
-    job.title.toLowerCase().includes(searchQuery.toLowerCase())
+
+  const filteredJobs = jobs.filter((job) =>
+    job.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="min-h-screen bg-black text-white p-20 relative overflow-hidden">
-      {/* Gradient Orbs */}
       <GradientOrb className="w-96 h-96 bg-purple-500 left-0 top-0" />
       <GradientOrb className="w-96 h-96 bg-blue-500 right-0 bottom-0" />
       <GradientOrb className="w-64 h-64 bg-pink-500 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" />
 
       <div className="max-w-5xl mx-auto relative">
-        {/* Header and Search */}
         <div className="backdrop-blur-xl bg-gray-900/30 rounded-2xl p-6 mb-6 border border-white/10">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               Job Board
             </h1>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition-colors">
+            <button 
+              className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition-colors"
+              onClick={() => navigate('/addJob')}
+            >
               <Plus size={20} />
               <span>Post Job</span>
             </button>
           </div>
-          
+
           <div className="relative">
             <input
               type="text"
@@ -190,24 +136,20 @@ const JobBoard = () => {
           </div>
         </div>
 
-        {/* Job Listings */}
         <div className="space-y-4">
           {loading ? (
             <div className="text-center text-white/70">Loading...</div>
+          ) : error ? (
+            <div className="text-center text-red-400">{error}</div>
           ) : filteredJobs.length === 0 ? (
             <div className="text-center text-white/70">No jobs found</div>
           ) : (
-            filteredJobs.map(job => (
-              <JobCard
-                key={job.id}
-                job={job}
-                onClick={() => setSelectedJob(job)}
-              />
+            filteredJobs.map((job) => (
+              <JobCard key={job.jobId} job={job} onClick={() => handleJobClick(job)} />
             ))
           )}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center gap-2 mt-6">
             {[...Array(totalPages)].map((_, index) => (
@@ -226,7 +168,6 @@ const JobBoard = () => {
           </div>
         )}
       </div>
-      {selectedJob && handlejobdetails(selectedJob)}
     </div>
   );
 };
