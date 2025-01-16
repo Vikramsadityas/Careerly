@@ -1,8 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, X } from 'lucide-react';
+import apiClient from '../Auth/ApiClient';
+import { useNavigate } from 'react-router-dom';
 
 const JobPostingForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -16,14 +20,10 @@ const JobPostingForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('localhost:8080/employers/jobs', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
+      console.log('Submitting form data:');
+      
+      const response = await apiClient.post("http://localhost:8080/employers/jobs", formData);
+      
         alert('Job posted successfully!');
         setFormData({
           title: '',
@@ -33,9 +33,11 @@ const JobPostingForm = () => {
           jobStatus: 'OPEN',
           company: ''
         });
-      }
+        navigate('/employerdashboard');
+      
     } catch (error) {
       console.error('Error posting job:', error);
+      alert('Job posting failed. Please try again.');
     }
   };
 
@@ -183,7 +185,7 @@ const JobPostingForm = () => {
                 </button>
               </div>
               <div className="flex flex-wrap gap-2 mt-2">
-                {formData.skillsRequired.map((skill, index) => (
+                {formData.skillsRequired.map((skill) => (
                   <motion.span
                     key={skill}
                     initial={{ opacity: 0, scale: 0.8 }}

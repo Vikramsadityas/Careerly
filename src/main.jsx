@@ -11,7 +11,6 @@ import MyMessages from "./components/Chat/MyMessages.jsx";
 import JobPostForm from "./components/Jobs/PostForm.jsx";
 import MentorProfile from "./components/Mentor/MentorProfile.jsx";
 import EmployerProfile from "./components/Employer/EmployerProfile.jsx";
-import EmployerLoginForm from "./components/Employer/LoginasEmployer.jsx";
 import MentorSearchPage from "./components/Mentor/MentorSearchPage.jsx";
 import UserProfile from "./components/ProfileCard.jsx";
 import JobBoard from "./components/Jobs/JobBoard.jsx";
@@ -90,10 +89,6 @@ const router = createBrowserRouter([
             <UserProfile />
           </Protected>
         ),
-      },
-      {
-        path: "/employerlogin",
-        element: <EmployerLoginForm />,
       },
       {
         path: "/employerdashboard",
