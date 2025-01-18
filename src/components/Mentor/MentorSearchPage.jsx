@@ -1,56 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { Search, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-const MentorCard = ({ mentor }) =>{
+import apiClient from "../Auth/ApiClient";
+
+const MentorCard = ({ mentor }) => {
   const navigate = useNavigate();
   const handleMentor = () => {
-    navigate(`/mentor-profile/${mentor.id}`);
-  }
-  return(
-  <div className="relative group bg-white/5 backdrop-blur-xl rounded-2xl transition-all duration-300 hover:bg-white/10">
-    <div className="relative p-6 rounded-2xl overflow-hidden flex flex-col">
-      <h3 className="text-2xl font-semibold text-white mb-2">{mentor.name}</h3>
-      <p className="text-gray-400 text-sm mb-4 line-clamp-3">{mentor.bio}</p>
+    navigate(`/mentor-profile/${mentor.mentorId}`);
+  };
 
-      <div className="flex flex-wrap gap-2 mb-4">
-        {mentor.expertise.map((skill, index) => (
-          <span
-            key={index}
-            className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 text-sm"
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
+  return (
+    <div className="relative group bg-white/5 backdrop-blur-xl rounded-2xl transition-all duration-300 hover:bg-white/10">
+      <div className="relative p-6 rounded-2xl overflow-hidden flex flex-col">
+        <h3 className="text-2xl font-semibold text-white mb-2">
+          {mentor.user.name}
+        </h3>
+        <p className="text-gray-400 text-sm mb-4 line-clamp-3">{mentor.bio}</p>
 
-      <div className="flex items-center gap-2 mb-4">
-        <div className="flex items-center">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star
+        <div className="flex flex-wrap gap-2 mb-4">
+          {mentor.expertise.map((skill, index) => (
+            <span
               key={index}
-              className={`w-5 h-5 ${
-                index < Math.round(mentor.avgRating)
-                  ? "text-yellow-400"
-                  : "text-gray-600"
-              }`}
-              fill={
-                index < Math.round(mentor.avgRating) ? "currentColor" : "none"
-              }
-            />
+              className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 text-sm"
+            >
+              {skill}
+            </span>
           ))}
         </div>
-        <span className="text-gray-400 text-sm">
-          {mentor.avgRating.toFixed(1)} / 5
-        </span>
-      </div>
 
-      <button className="w-full py-2.5 rounded-xl bg-purple-500/20 text-white font-medium transition-all duration-300 hover:bg-purple-500/30"
-      onClick={handleMentor}>
-        Schedule Session
-      </button>
+        <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Star
+                key={index}
+                className={`w-5 h-5 ${
+                  index < Math.round(mentor.averageRating)
+                    ? "text-yellow-400"
+                    : "text-gray-600"
+                }`}
+                fill={
+                  index < Math.round(mentor.averageRating) ? "currentColor" : "none"
+                }
+              />
+            ))}
+          </div>
+          <span className="text-gray-400 text-sm">
+            {mentor.averageRating.toFixed(1)} / 5
+          </span>
+        </div>
+
+        <button
+          className="w-full py-2.5 rounded-xl bg-purple-500/20 text-white font-medium transition-all duration-300 hover:bg-purple-500/30"
+          onClick={handleMentor}
+        >
+          Schedule Session
+        </button>
+      </div>
     </div>
-  </div>
-)};
+  );
+};
 
 const LoadingState = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -105,53 +113,29 @@ const MentorSearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Dummy data with avgRating
-  const dummyData = [
-    {
-      id: 1,
-      name: "John Doe",
-      avgRating: 4.8,
-      bio: "Experienced software engineer specializing in frontend development.",
-      expertise: ["React", "JavaScript", "CSS"],
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      avgRating: 4.5,
-      bio: "Data scientist with expertise in machine learning and AI.",
-      expertise: ["Python", "Machine Learning", "AI"],
-    },
-    {
-      id: 3,
-      name: "Emily Johnson",
-      avgRating: 4.7,
-      bio: "Digital marketer with a knack for SEO and content strategy.",
-      expertise: ["SEO", "Content Marketing", "Google Ads"],
-    },
-    {
-      id: 4,
-      name: "Michael Brown",
-      avgRating: 4.2,
-      bio: "Full-stack developer with a focus on backend technologies.",
-      expertise: ["Node.js", "MongoDB", "AWS"],
-    },
-    
-  ];
 
   useEffect(() => {
-    // Simulating API call delay
-    setIsLoading(true);
-    setTimeout(() => {
-      setMentors(dummyData);
-      setFilteredMentors(dummyData);
-      setIsLoading(false);
-    }, 1000);
+    const fetchMentors = async () => {
+      setIsLoading(true);
+      try {
+        const response = await apiClient.get("/public/mentors");
+        const mentorsData = response.data.data.content;
+        setMentors(mentorsData);
+        setFilteredMentors(mentorsData);
+        setIsLoading(false);
+      } catch (err) {
+        setError("Failed to fetch mentors. Please try again later.");
+        setIsLoading(false);
+      }
+    };
+
+    fetchMentors();
   }, []);
 
   useEffect(() => {
     const filtered = mentors.filter(
       (mentor) =>
-        mentor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        mentor.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         mentor.expertise.some((skill) =>
           skill.toLowerCase().includes(searchQuery.toLowerCase())
         )
@@ -161,14 +145,12 @@ const MentorSearchPage = () => {
 
   return (
     <div className="min-h-screen bg-black pt-10">
-      {/* Background gradients */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 -left-40 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl" />
         <div className="absolute bottom-0 -right-40 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-screen filter blur-3xl" />
       </div>
 
       <div className="relative container mx-auto px-4 py-12">
-        {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">
             Connect with Expert Mentors
@@ -178,7 +160,6 @@ const MentorSearchPage = () => {
           </p>
         </div>
 
-        {/* Search bar */}
         <div className="max-w-2xl mx-auto mb-12">
           <div className="relative">
             <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-xl" />
@@ -195,16 +176,15 @@ const MentorSearchPage = () => {
           </div>
         </div>
 
-        {/* Mentor grid */}
         <div className="max-w-6xl mx-auto">
           {isLoading ? (
             <LoadingState />
           ) : error ? (
-            <ErrorState error={error} onRetry={() => setMentors(dummyData)} />
+            <ErrorState error={error} onRetry={() => window.location.reload()} />
           ) : filteredMentors.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredMentors.map((mentor) => (
-                <MentorCard key={mentor.id} mentor={mentor}/>
+                <MentorCard key={mentor.mentorId} mentor={mentor} />
               ))}
             </div>
           ) : (
